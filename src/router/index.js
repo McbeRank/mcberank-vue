@@ -1,12 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import config from "@/common/config";
 
 Vue.use(VueRouter);
 
 export default new VueRouter({
 	mode: "history",
-	base: config.baseUrl,
 	scrollBehavior() {
 		return { x: 0, y: 0 };
 	},

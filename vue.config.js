@@ -8,5 +8,5 @@ module.exports = {
 		}
 	},
 	outputDir: '../McbeRank/public',
-	publicPath: '/' + process.env.VUE_APP_BASE_URL + '/'
+	publicPath: ''
 };
