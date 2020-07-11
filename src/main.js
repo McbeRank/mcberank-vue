@@ -13,9 +13,14 @@ moment.locale(navigator.language);
 import VueMoment from "vue-moment";
 Vue.use(VueMoment);
 
-// import axios & set base url
+// import config & set base URL
+import config from "./common/config";
+const baseElement = document.querySelector('head > base') || document.head.appendChild(document.createElement('base'));
+baseElement.setAttribute("href", config.baseUrl);
+
+// import axios & set base URL
 import axios from "axios";
-axios.defaults.baseURL = document.baseURI;
+axios.defaults.baseURL = config.apiUrl;
 
 // import Bootstrap-vue
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
