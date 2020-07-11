@@ -15,7 +15,7 @@ Vue.use(VueMoment);
 
 // import axios & set base url
 import axios from "axios";
-axios.defaults.baseURL = document.querySelector('head > base').getAttribute('href');
+axios.defaults.baseURL = document.baseURI;
 
 // import Bootstrap-vue
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
