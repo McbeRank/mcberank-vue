@@ -1,0 +1,20 @@
+{
+	"root": true,
+	"env": {
+		"node": true
+	},
+	"extends": [
+		"plugin:vue/essential",
+		"eslint:recommended",
+		"@vue/prettier"
+	],
+	"parserOptions": {
+		"parser": "babel-eslint"
+	},
+	"rules": {
+		"no-unused-vars": "warn",
+		"indent": ["warn", "tab"],
+		"vue/script-indent": ["warn", "tab"],
+		"vue/html-indent": ["warn", "tab"]
+	}
+}
