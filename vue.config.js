@@ -7,6 +7,5 @@ module.exports = {
 			}
 		}
 	},
-	outputDir: '../McbeRank/public',
 	publicPath: ''
 };
