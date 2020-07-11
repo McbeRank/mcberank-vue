@@ -1,18 +1,20 @@
 <template>
-	<b-card no-body class="mb-4 py-3">
-		<div id="chart" />
+	<b-overlay :show="isLoading" opacity="0.75" rounded="sm">
+		<b-card no-body class="mb-4 py-3">
+			<div id="chart" />
 
-		<div class="d-flex justify-content-center">
-			<b-form-group class="my-0">
-				<b-form-radio-group size="sm" v-model="selectedRange">
-					<b-form-radio value="6 h">6시간</b-form-radio>
-					<b-form-radio value="1 d">1일</b-form-radio>
-					<b-form-radio value="3 d">3일</b-form-radio>
-					<b-form-radio value="7 d">7일</b-form-radio>
-				</b-form-radio-group>
-			</b-form-group>
-		</div>
-	</b-card>
+			<div class="d-flex justify-content-center">
+				<b-form-group class="my-0">
+					<b-form-radio-group size="sm" v-model="selectedRange">
+						<b-form-radio value="6 h">6시간</b-form-radio>
+						<b-form-radio value="1 d">1일</b-form-radio>
+						<b-form-radio value="3 d">3일</b-form-radio>
+						<b-form-radio value="7 d">7일</b-form-radio>
+					</b-form-radio-group>
+				</b-form-group>
+			</div>
+		</b-card>
+	</b-overlay>
 </template>
 
 <script>
@@ -39,6 +41,7 @@ export default {
 			chart: {},
 			realtimeHandler: null,
 			promiseChain: new Promise(resolve => resolve()),
+			isLoading: true,
 			selectedRange: null,
 			samplingInterval: null,
 			data: { columns: [["x", 0]], x: "x" },
@@ -169,6 +172,8 @@ export default {
 			// call IIFE for pass params to async function
 			((load, unload) => {
 				this.promiseChain = this.promiseChain.then(async () => {
+					this.isLoading = true;
+
 					var servers = load;
 					await this.loadStats(servers);
 
@@ -181,6 +186,7 @@ export default {
 						unload: unload || true
 					});
 
+					this.isLoading = false;
 					if (columns.length) console.log(`Chart was loaded (data length=${columns[0].length - 1})`, columns);
 
 					await new Promise(resolve => setTimeout(resolve, this.options.transition.duration + 100));
