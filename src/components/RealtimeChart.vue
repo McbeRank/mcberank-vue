@@ -1,6 +1,6 @@
 <template>
-	<b-overlay :show="isLoading" opacity="0.75" rounded="sm">
-		<b-card no-body class="mb-4 py-3">
+	<b-overlay :show="isLoading" opacity="0.75" rounded="sm" class="mb-4">
+		<b-card no-body class="py-3 h-100">
 			<div id="chart" />
 
 			<div class="d-flex justify-content-center">
