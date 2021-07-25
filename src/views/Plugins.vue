@@ -10,23 +10,23 @@
 </template>
 
 <script>
-import HeaderTitle from "@/components/HeaderTitle";
-import PluginList from "@/components/PluginList";
-import store from "@/store";
-import { FETCH_PLUGINS } from "@/store/actions.type";
-import { mapGetters } from "vuex";
+import HeaderTitle from '@/components/HeaderTitle';
+import PluginList from '@/components/PluginList';
+import store from '@/store';
+import { FETCH_PLUGINS } from '@/store/actions.type';
+import { mapGetters } from 'vuex';
 
 export default {
-	name: "plugins",
+	name: 'plugins',
 	components: {
 		HeaderTitle,
-		PluginList
+		PluginList,
 	},
 	beforeRouteEnter(to, from, next) {
 		Promise.all([store.dispatch(FETCH_PLUGINS)]).then(() => next());
 	},
 	computed: {
-		...mapGetters(["pluginsVersionMapped"])
-	}
+		...mapGetters(['pluginsVersionMapped']),
+	},
 };
 </script>

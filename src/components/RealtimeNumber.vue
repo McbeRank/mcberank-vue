@@ -4,18 +4,18 @@
 
 <script>
 export default {
-	name: "realtime-number",
+	name: 'realtime-number',
 	props: {
 		number: {
 			type: Number,
 			required: true,
-			default: 0
-		}
+			default: 0,
+		},
 	},
 	data() {
 		return {
 			displayNumber: 0,
-			interval: false
+			interval: false,
 		};
 	},
 	mounted() {
@@ -27,7 +27,7 @@ export default {
 	watch: {
 		number() {
 			this.triggerNumberChanged();
-		}
+		},
 	},
 	methods: {
 		triggerNumberChanged() {
@@ -42,7 +42,7 @@ export default {
 					this.displayNumber = this.displayNumber + change;
 				}
 			}, 20);
-		}
-	}
+		},
+	},
 };
 </script>

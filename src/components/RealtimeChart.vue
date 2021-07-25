@@ -18,23 +18,23 @@
 </template>
 
 <script>
-import { FETCH_SERVER_STATS, FETCH_SERVER_STATS_RECENT } from "@/store/actions.type";
-import Realtime from "@/common/realtime";
-import StatsService from "@/common/stats.service";
-import { mapGetters } from "vuex";
-import c3 from "c3";
-import moment from "moment";
+import { FETCH_SERVER_STATS, FETCH_SERVER_STATS_RECENT } from '@/store/actions.type';
+import Realtime from '@/common/realtime';
+import StatsService from '@/common/stats.service';
+import { mapGetters } from 'vuex';
+import c3 from 'c3';
+import moment from 'moment';
 
 export default {
-	name: "realtime-chart",
+	name: 'realtime-chart',
 	props: {
 		servers: {
 			type: Array,
 			required: true,
 			default() {
 				return [];
-			}
-		}
+			},
+		},
 	},
 	data() {
 		return {
@@ -44,32 +44,32 @@ export default {
 			isLoading: true,
 			selectedRange: null,
 			samplingInterval: null,
-			data: { columns: [["x", 0]], x: "x" },
+			data: { columns: [['x', 0]], x: 'x' },
 			from: null,
 			options: {
 				point: {
-					show: false
+					show: false,
 				},
 				transition: {
-					duration: 100
+					duration: 100,
 				},
 				size: {
-					height: 400
+					height: 400,
 				},
 				axis: {
 					x: {
-						type: "timeseries",
+						type: 'timeseries',
 						show: false,
 						tick: {
-							fit: false
-						}
+							fit: false,
+						},
 					},
 					y: {
 						show: false,
 						min: 0,
 						tick: {},
-						padding: { bottom: 10 }
-					}
+						padding: { bottom: 10 },
+					},
 				},
 				grid: {
 					x: { show: false },
@@ -82,31 +82,31 @@ export default {
 							// { value: 50, text: '50'},
 							// { value: 100, text: '100'},
 							// { value: 200, text: '200'}
-						]
-					}
+						],
+					},
 				},
 				zoom: {
-					enabled: true
+					enabled: true,
 				},
 				subchart: {
 					show: false,
-					size: { height: 20 }
-				}
-			}
+					size: { height: 20 },
+				},
+			},
 		};
 	},
 	mounted() {
 		this.chart = c3.generate({
-			bindto: "#chart",
+			bindto: '#chart',
 			data: this.data,
-			...this.options
+			...this.options,
 		});
 
 		// set this value will load chart
-		this.selectedRange = "6 h";
+		this.selectedRange = '6 h';
 
 		// delayed loading
-		this.realtimeHandler = new Realtime("TimeChart")
+		this.realtimeHandler = new Realtime('TimeChart')
 			.setInterval(() => {
 				this.updateChart();
 			}, 10 * 1000)
@@ -116,17 +116,17 @@ export default {
 		this.realtimeHandler.stop();
 	},
 	computed: {
-		...mapGetters(["stats", "recentStats"])
+		...mapGetters(['stats', 'recentStats']),
 	},
 	watch: {
 		selectedRange(newSelectedRange) {
-			this.from = moment().subtract(...newSelectedRange.split(" "));
+			this.from = moment().subtract(...newSelectedRange.split(' '));
 		},
 
 		from() {
 			this.loadChart({
 				load: this.servers,
-				unload: true
+				unload: true,
 			});
 		},
 
@@ -137,7 +137,7 @@ export default {
 			if (unload.length || load.length)
 				this.loadChart({
 					load: load,
-					unload: unload.map(server => server.name)
+					unload: unload.map(server => server.name),
 				});
 		},
 
@@ -145,8 +145,8 @@ export default {
 			handler(newData) {
 				this.chart.load(newData);
 			},
-			deep: true
-		}
+			deep: true,
+		},
 	},
 	methods: {
 		async loadStats(servers) {
@@ -159,9 +159,9 @@ export default {
 						return this.$store.dispatch(FETCH_SERVER_STATS, {
 							serverSlug: server.slug,
 							from: from,
-							samplingInterval: samplingInterval
+							samplingInterval: samplingInterval,
 						});
-					})
+					}),
 				);
 			})(this.from, this.samplingInterval);
 		},
@@ -181,9 +181,9 @@ export default {
 					if (columns.length) columns.unshift(this.stats.axisValues);
 
 					this.chart.load({
-						x: "x",
+						x: 'x',
 						columns: columns,
-						unload: unload || true
+						unload: unload || true,
 					});
 
 					this.isLoading = false;
@@ -198,9 +198,9 @@ export default {
 			await Promise.all(
 				servers.map(server => {
 					return this.$store.dispatch(FETCH_SERVER_STATS_RECENT, {
-						serverSlug: server.slug
+						serverSlug: server.slug,
 					});
-				})
+				}),
 			);
 		},
 
@@ -215,16 +215,16 @@ export default {
 				columns.unshift(this.recentStats.axisValues);
 
 				this.chart.flow({
-					x: "x",
-					columns: columns
+					x: 'x',
+					columns: columns,
 				});
 
 				console.log(`Chart was updated (data length=${columns[0].length - 1})`, columns);
 
 				await new Promise(resolve => setTimeout(resolve, this.options.transition.duration + 100));
 			});
-		}
-	}
+		},
+	},
 };
 </script>
 

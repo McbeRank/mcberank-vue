@@ -3,13 +3,13 @@
 </template>
 
 <script>
-import moment from "moment";
+import moment from 'moment';
 
 export default {
-	name: "reactive-time",
+	name: 'reactive-time',
 	data() {
 		return {
-			criteriaTime: null
+			criteriaTime: null,
 		};
 	},
 	mounted() {
@@ -18,6 +18,6 @@ export default {
 		setInterval(() => {
 			this.$el.innerHTML = this.criteriaTime.fromNow();
 		}, 5000);
-	}
+	},
 };
 </script>

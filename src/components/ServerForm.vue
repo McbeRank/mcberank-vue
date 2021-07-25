@@ -33,21 +33,21 @@
 
 <script>
 export default {
-	name: "server-form",
+	name: 'server-form',
 	props: {
 		form: {
 			type: Object,
 			required: true,
-			default: () => ({})
+			default: () => ({}),
 		},
 		requesting: {
 			type: Boolean,
-			default: () => false
+			default: () => false,
 		},
 		error: {
 			type: Object,
-			default: () => ({})
-		}
+			default: () => ({}),
+		},
 	},
 	computed: {
 		validation() {
@@ -55,17 +55,17 @@ export default {
 		},
 
 		errorMessage() {
-			if (this.error.name == "ValidationError") return "";
+			if (this.error.name == 'ValidationError') return '';
 			if (this.error.message) return this.error.message;
 			if (Object.keys(this.error).length) return this.error;
-			return "";
-		}
+			return '';
+		},
 	},
 	methods: {
 		onSubmit(event) {
 			event.preventDefault();
-			this.$emit("submit", event);
-		}
-	}
+			this.$emit('submit', event);
+		},
+	},
 };
 </script>

@@ -1,36 +1,45 @@
-import axios from "axios";
-import moment from "moment";
+import axios from 'axios';
+import moment from 'moment';
 
-export const INTERVAL_1m = [1, "m"];
-export const INTERVAL_5m = [5, "m"];
-export const INTERVAL_10m = [10, "m"];
-export const INTERVAL_30m = [30, "m"];
-export const INTERVAL_1h = [1, "h"];
-export const INTERVAL_3h = [3, "h"];
-export const INTERVAL_6h = [6, "h"];
-export const INTERVAL_1d = [1, "d"];
+export const INTERVAL_1m = [1, 'm'];
+export const INTERVAL_5m = [5, 'm'];
+export const INTERVAL_10m = [10, 'm'];
+export const INTERVAL_30m = [30, 'm'];
+export const INTERVAL_1h = [1, 'h'];
+export const INTERVAL_3h = [3, 'h'];
+export const INTERVAL_6h = [6, 'h'];
+export const INTERVAL_1d = [1, 'd'];
 
 export const INTERVAL = {
-	"1m": INTERVAL_1m,
-	"5m": INTERVAL_5m,
-	"10m": INTERVAL_10m,
-	"30m": INTERVAL_30m,
-	"1h": INTERVAL_1h,
-	"3h": INTERVAL_3h,
-	"6h": INTERVAL_6h,
-	"1d": INTERVAL_1d
+	'1m': INTERVAL_1m,
+	'5m': INTERVAL_5m,
+	'10m': INTERVAL_10m,
+	'30m': INTERVAL_30m,
+	'1h': INTERVAL_1h,
+	'3h': INTERVAL_3h,
+	'6h': INTERVAL_6h,
+	'1d': INTERVAL_1d,
 };
 
 const StatsFetcher = {
-	fetchStats: async function(serverSlug, from, to, samplingInterval) {
+	fetchStats: async function (serverSlug, from, to, samplingInterval) {
 		from = moment(from).utc();
 		to = moment(to).utc();
-		const { data } = await axios.get("/api/stats/" + serverSlug + "/numplayers?from=" + from.format() + "&to=" + to.format() + "&samplingInterval=" + samplingInterval.join(""));
+		const { data } = await axios.get(
+			'/api/stats/' +
+				serverSlug +
+				'/numplayers?from=' +
+				from.format() +
+				'&to=' +
+				to.format() +
+				'&samplingInterval=' +
+				samplingInterval.join(''),
+		);
 
 		data.from = moment(data.from);
 		data.to = moment(data.to);
 		return data;
-	}
+	},
 };
 
 class StatsChunk {
@@ -45,7 +54,7 @@ class StatsChunk {
 	}
 
 	isToday() {
-		return this.from.isSame(moment().startOf("day"));
+		return this.from.isSame(moment().startOf('day'));
 	}
 
 	start() {
@@ -57,10 +66,7 @@ class StatsChunk {
 	}
 
 	last() {
-		return moment
-			.min([this.end(), moment()])
-			.clone()
-			.startOf("minute");
+		return moment.min([this.end(), moment()]).clone().startOf('minute');
 	}
 
 	isFullLoaded() {
@@ -68,7 +74,7 @@ class StatsChunk {
 	}
 
 	setSamplingInterval(samplingInterval) {
-		if (this.samplingInterval.join("") == samplingInterval.join("")) return;
+		if (this.samplingInterval.join('') == samplingInterval.join('')) return;
 
 		this.samplingInterval = samplingInterval;
 		// need to full reload to get up/down sampled data
@@ -132,21 +138,21 @@ class StatsChunk {
 
 class StatsChunkDaily extends StatsChunk {
 	constructor(serverSlug, day) {
-		super(serverSlug, moment(day).startOf("day"));
+		super(serverSlug, moment(day).startOf('day'));
 	}
 
 	end() {
-		return this.from.clone().add(1, "days");
+		return this.from.clone().add(1, 'days');
 	}
 }
 
 class StatsChunkMonthly extends StatsChunk {
 	constructor(serverSlug, month) {
-		super(serverSlug, moment(month).startOf("month"), INTERVAL_1h);
+		super(serverSlug, moment(month).startOf('month'), INTERVAL_1h);
 	}
 
 	end() {
-		return this.from.clone().add(1, "month");
+		return this.from.clone().add(1, 'month');
 	}
 }
 
@@ -168,7 +174,7 @@ class StatsChunkResult extends StatsChunk {
 			.valueOf();
 		var from = Math.max(0, this.from - (this.from % interval));
 		var to_i = Math.min(this.stats.length - 1, Math.ceil((this.to - this.from) / interval));
-		var result = ["x"];
+		var result = ['x'];
 		for (var i = 0; i < to_i; i++) {
 			result.push(from + i * interval);
 		}
@@ -181,7 +187,7 @@ class StatsChunkResult extends StatsChunk {
 export const StatsService = {
 	chunks: {},
 
-	adjustSamplingInterval: function(from, to) {
+	adjustSamplingInterval: function (from, to) {
 		var duration = moment.duration(moment(to) - from).asMinutes();
 
 		if (duration < 500) {
@@ -198,16 +204,16 @@ export const StatsService = {
 		return INTERVAL_1h;
 	},
 
-	loadChunks: async function(serverSlug, from, to, samplingInterval) {
-		var fromDay = from.clone().startOf("days");
-		var toDay = to.clone().startOf("days");
+	loadChunks: async function (serverSlug, from, to, samplingInterval) {
+		var fromDay = from.clone().startOf('days');
+		var toDay = to.clone().startOf('days');
 
 		if (!this.chunks[serverSlug]) this.chunks[serverSlug] = {};
 
 		var enumDays = [];
 		enumDays.push(fromDay.clone());
 		if (fromDay < toDay) {
-			while (fromDay < toDay) enumDays.push(fromDay.add(1, "days").clone());
+			while (fromDay < toDay) enumDays.push(fromDay.add(1, 'days').clone());
 		}
 
 		var waitFor = [];
@@ -230,7 +236,7 @@ export const StatsService = {
 		return requestedChunks;
 	},
 
-	getStats: async function(serverSlug, from, to, samplingInterval) {
+	getStats: async function (serverSlug, from, to, samplingInterval) {
 		from = moment(from);
 		to = moment(to);
 		var chunks = await this.loadChunks(serverSlug, from, to, samplingInterval);
@@ -238,16 +244,16 @@ export const StatsService = {
 		// console.log(chunks);
 
 		var result = chunks.map(chunk => chunk.getStats(from, to)).flat();
-		console.log("stats manipulated: ", result);
+		console.log('stats manipulated: ', result);
 
 		return new StatsChunkResult(chunks[0], result, from, to);
 	},
 
-	getRecentStats: async function(serverSlug) {
+	getRecentStats: async function (serverSlug) {
 		if (!this.chunks[serverSlug] || !this.chunks[serverSlug].today) return;
 
 		return await this.chunks[serverSlug].today.fullLoad();
-	}
+	},
 };
 
 export default StatsService;

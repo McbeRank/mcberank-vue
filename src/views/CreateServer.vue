@@ -21,39 +21,39 @@
 </template>
 
 <script>
-import axios from "axios";
-import HeaderTitle from "@/components/HeaderTitle";
-import ServerForm from "@/components/ServerForm";
+import axios from 'axios';
+import HeaderTitle from '@/components/HeaderTitle';
+import ServerForm from '@/components/ServerForm';
 
 export default {
-	name: "create-server",
+	name: 'create-server',
 	components: {
 		HeaderTitle,
-		ServerForm
+		ServerForm,
 	},
 	data() {
 		return {
-			form: { host: "", port: 19132 },
+			form: { host: '', port: 19132 },
 			requesting: false,
 			error: {},
-			result: ""
+			result: '',
 		};
 	},
 	methods: {
 		async onSubmit() {
 			this.requesting = true;
 			this.error = {};
-			this.result = "";
+			this.result = '';
 
 			try {
-				const { data } = await axios.post("/api/servers", this.form);
+				const { data } = await axios.post('/api/servers', this.form);
 				this.result = data.message || data;
 			} catch (error) {
 				this.error = error.response.data;
 			} finally {
 				this.requesting = false;
 			}
-		}
-	}
+		},
+	},
 };
 </script>

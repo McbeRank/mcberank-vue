@@ -25,34 +25,34 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import store from "@/store";
-import { FETCH_SERVER } from "@/store/actions.type";
-import HeaderTitle from "@/components/HeaderTitle";
-import RealtimeChart from "@/components/RealtimeChart";
-import ServerDescriptions from "@/components/ServerDescriptions";
-import PlayerList from "@/components/PlayerList";
-import Realtime from "@/common/realtime";
+import { mapGetters } from 'vuex';
+import store from '@/store';
+import { FETCH_SERVER } from '@/store/actions.type';
+import HeaderTitle from '@/components/HeaderTitle';
+import RealtimeChart from '@/components/RealtimeChart';
+import ServerDescriptions from '@/components/ServerDescriptions';
+import PlayerList from '@/components/PlayerList';
+import Realtime from '@/common/realtime';
 
 export default {
-	name: "server",
-	props: ["slug"],
+	name: 'server',
+	props: ['slug'],
 	data() {
 		return {
-			realtimeHandler: null
+			realtimeHandler: null,
 		};
 	},
 	components: {
 		HeaderTitle,
 		RealtimeChart,
 		ServerDescriptions,
-		PlayerList
+		PlayerList,
 	},
 	beforeRouteEnter(to, from, next) {
 		Promise.all([store.dispatch(FETCH_SERVER, to.params.slug)]).then(() => next());
 	},
 	created() {
-		this.realtimeHandler = new Realtime("Server")
+		this.realtimeHandler = new Realtime('Server')
 			.setInterval(() => {
 				store.dispatch(FETCH_SERVER, this.slug);
 			}, 5 * 1000)
@@ -62,7 +62,7 @@ export default {
 		this.realtimeHandler.stop();
 	},
 	computed: {
-		...mapGetters(["server"])
-	}
+		...mapGetters(['server']),
+	},
 };
 </script>

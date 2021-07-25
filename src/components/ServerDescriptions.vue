@@ -11,7 +11,7 @@
 			<dl>
 				<div v-for="field in fields" :key="field.key">
 					<dt class="small text-muted">{{ field.label }}</dt>
-					<dd>{{ server[field.key] || "알 수 없음" }}</dd>
+					<dd>{{ server[field.key] || '알 수 없음' }}</dd>
 				</div>
 			</dl>
 
@@ -22,36 +22,38 @@
 			</template>
 		</b-card>
 
-		<b-button variant="primary" :href="playLink" v-b-tooltip.hover title="클릭하여 접속하세요!"><b-icon icon="play-fill" /> 플레이</b-button>
+		<b-button variant="primary" :href="playLink" v-b-tooltip.hover title="클릭하여 접속하세요!"
+		><b-icon icon="play-fill" /> 플레이</b-button
+		>
 	</div>
 </template>
 
 <script>
-import ReactiveTime from "@/components/ReactiveTime";
-import RealtimeNumber from "@/components/RealtimeNumber";
+import ReactiveTime from '@/components/ReactiveTime';
+import RealtimeNumber from '@/components/RealtimeNumber';
 
 export default {
-	name: "server-descriptions",
+	name: 'server-descriptions',
 	components: {
 		ReactiveTime,
-		RealtimeNumber
+		RealtimeNumber,
 	},
-	props: ["server"],
+	props: ['server'],
 	data() {
 		return {
 			fields: [
-				{ key: "name", label: "주소" },
+				{ key: 'name', label: '주소' },
 				// { key: "ip", label: "아이피" },
-				{ key: "version", label: "클라이언트 버전" },
-				{ key: "engine", label: "엔진" }
-			]
+				{ key: 'version', label: '클라이언트 버전' },
+				{ key: 'engine', label: '엔진' },
+			],
 		};
 	},
 	computed: {
 		playLink() {
 			return `minecraft://?addExternalServer=${this.server.name}|${this.server.name}`;
-		}
-	}
+		},
+	},
 };
 </script>
 

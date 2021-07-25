@@ -31,22 +31,22 @@
 
 <script>
 export default {
-	name: "navigation",
+	name: 'navigation',
 	data() {
 		return {
 			routes: [
-				{ name: "servers", label: "서버 목록" },
-				{ name: "create-server", label: "서버 추가" },
-				{ name: "query-server", label: "서버 확인" },
-				{ name: "plugins", label: "플러그인 목록" }
-			]
+				{ name: 'servers', label: '서버 목록' },
+				{ name: 'create-server', label: '서버 추가' },
+				{ name: 'query-server', label: '서버 확인' },
+				{ name: 'plugins', label: '플러그인 목록' },
+			],
 		};
 	},
 	computed: {
 		currentRoute() {
 			return this.$route.name;
-		}
-	}
+		},
+	},
 };
 </script>
 

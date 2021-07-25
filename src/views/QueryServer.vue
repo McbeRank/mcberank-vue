@@ -24,26 +24,26 @@
 </template>
 
 <script>
-import axios from "axios";
-import HeaderTitle from "@/components/HeaderTitle";
-import ServerForm from "@/components/ServerForm";
-import ServerDescriptions from "@/components/ServerDescriptions";
-import PlayerList from "@/components/PlayerList";
+import axios from 'axios';
+import HeaderTitle from '@/components/HeaderTitle';
+import ServerForm from '@/components/ServerForm';
+import ServerDescriptions from '@/components/ServerDescriptions';
+import PlayerList from '@/components/PlayerList';
 
 export default {
-	name: "query-server",
+	name: 'query-server',
 	components: {
 		HeaderTitle,
 		ServerForm,
 		ServerDescriptions,
-		PlayerList
+		PlayerList,
 	},
 	data() {
 		return {
-			form: { host: "", port: 19132 },
+			form: { host: '', port: 19132 },
 			requesting: false,
 			error: {},
-			server: {}
+			server: {},
 		};
 	},
 	methods: {
@@ -52,14 +52,14 @@ export default {
 			this.error = {};
 
 			try {
-				const { data } = await axios.get("/api/query", { params: this.form });
+				const { data } = await axios.get('/api/query', { params: this.form });
 				this.server = data;
 			} catch (error) {
 				this.error = error.response.data;
 			} finally {
 				this.requesting = false;
 			}
-		}
-	}
+		},
+	},
 };
 </script>

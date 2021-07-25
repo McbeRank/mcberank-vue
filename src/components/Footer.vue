@@ -2,7 +2,7 @@
 	<!-- copyright -->
 	<footer class="footer bg-light">
 		<div class="container py-4 text-muted">
-			<a href="https://github.com/McbeRank" class="text-secondary" style="font-size: 1.2em;"> <i class="fa fa-github"></i> Github </a>
+			<a href="https://github.com/McbeRank" class="text-secondary" style="font-size: 1.2em"> <i class="fa fa-github"></i> Github </a>
 
 			<div class="my-2">
 				<small>Copyright 2020. McbeRank All rights reserved.</small>
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-	name: "Footer"
+	name: 'Footer',
 };
 </script>
 

@@ -3,7 +3,8 @@
 		<header-title>
 			<template v-slot:title>서버 목록</template>
 			<template v-slot:description>
-				<realtime-number :number="onlineServers.length" />개의 서버가 온라인이며, <realtime-number :number="onlinePlayers" />명의 플레이어가 플레이중입니다
+				<realtime-number :number="onlineServers.length" />개의 서버가 온라인이며, <realtime-number :number="onlinePlayers" />명의
+				플레이어가 플레이중입니다
 			</template>
 		</header-title>
 
@@ -26,7 +27,7 @@
 						{{ data.item.title || data.item.name }}
 					</router-link>
 				</div>
-				<div>{{ data.item.title ? data.item.name : "" }}</div>
+				<div>{{ data.item.title ? data.item.name : '' }}</div>
 			</template>
 
 			<template v-slot:cell(numplayers)="data">
@@ -46,36 +47,36 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import store from "@/store";
-import { FETCH_SERVERS } from "@/store/actions.type";
-import HeaderTitle from "@/components/HeaderTitle";
-import RealtimeChart from "@/components/RealtimeChart";
-import RealtimeNumber from "@/components/RealtimeNumber";
-import Realtime from "@/common/realtime";
+import { mapGetters } from 'vuex';
+import store from '@/store';
+import { FETCH_SERVERS } from '@/store/actions.type';
+import HeaderTitle from '@/components/HeaderTitle';
+import RealtimeChart from '@/components/RealtimeChart';
+import RealtimeNumber from '@/components/RealtimeNumber';
+import Realtime from '@/common/realtime';
 
 export default {
-	name: "servers",
+	name: 'servers',
 	components: {
 		HeaderTitle,
 		RealtimeNumber,
-		RealtimeChart
+		RealtimeChart,
 	},
 	data() {
 		return {
 			realtimeHandler: null,
 			fields: [
-				{ key: "rank", label: "#", class: "col-rank" },
-				{ key: "name", label: "서버" },
+				{ key: 'rank', label: '#', class: 'col-rank' },
+				{ key: 'name', label: '서버' },
 				{
-					key: "numplayers",
-					label: "동접",
-					class: "col-numplayers text-right font-weight-bold"
+					key: 'numplayers',
+					label: '동접',
+					class: 'col-numplayers text-right font-weight-bold',
 				},
-				{ key: "compare", label: "비교", class: "col-compare text-right" }
+				{ key: 'compare', label: '비교', class: 'col-compare text-right' },
 			],
 			selectedServers: [],
-			throttleSelect: 5
+			throttleSelect: 5,
 		};
 	},
 	created() {
@@ -84,7 +85,7 @@ export default {
 				this.toggleServer(server);
 			});
 
-			this.realtimeHandler = new Realtime("Servers")
+			this.realtimeHandler = new Realtime('Servers')
 				.setInterval(() => {
 					store.dispatch(FETCH_SERVERS);
 				}, 5 * 1000)
@@ -95,7 +96,7 @@ export default {
 		this.realtimeHandler.stop();
 	},
 	computed: {
-		...mapGetters(["servers", "onlineServers", "offlineServers"]),
+		...mapGetters(['servers', 'onlineServers', 'offlineServers']),
 
 		onlineServers() {
 			return this.servers.filter(server => server.online);
@@ -103,7 +104,7 @@ export default {
 
 		onlinePlayers() {
 			return this.servers.reduce((a, c) => a + c.numplayers, 0);
-		}
+		},
 	},
 	methods: {
 		toggleServer(server) {
@@ -112,8 +113,8 @@ export default {
 			} else {
 				this.$set(this.selectedServers, server.name, server);
 			}
-		}
-	}
+		},
+	},
 };
 </script>
 

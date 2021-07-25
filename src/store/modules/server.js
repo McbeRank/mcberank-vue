@@ -1,22 +1,22 @@
-import { FETCH_SERVERS, FETCH_SERVER } from "@/store/actions.type";
-import { SET_SERVERS, SET_SERVER } from "@/store/mutations.type";
-import axios from "axios";
+import { FETCH_SERVERS, FETCH_SERVER } from '@/store/actions.type';
+import { SET_SERVERS, SET_SERVER } from '@/store/mutations.type';
+import axios from 'axios';
 
 const state = {
 	servers: [],
-	server: {}
+	server: {},
 };
 
 const actions = {
 	async [FETCH_SERVERS](context) {
-		const { data } = await axios.get("/api/servers");
+		const { data } = await axios.get('/api/servers');
 		context.commit(SET_SERVERS, data);
 	},
 
 	async [FETCH_SERVER](context, serverSlug) {
-		const { data } = await axios.get("/api/servers/" + serverSlug);
+		const { data } = await axios.get('/api/servers/' + serverSlug);
 		context.commit(SET_SERVER, data);
-	}
+	},
 };
 
 const mutations = {
@@ -26,7 +26,7 @@ const mutations = {
 
 	[SET_SERVER](state, newServer) {
 		state.server = newServer;
-	}
+	},
 };
 
 const getters = {
@@ -44,12 +44,12 @@ const getters = {
 
 	server(state) {
 		return state.server;
-	}
+	},
 };
 
 export default {
 	state,
 	actions,
 	mutations,
-	getters
+	getters,
 };

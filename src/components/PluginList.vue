@@ -23,27 +23,27 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-	name: "plugin",
+	name: 'plugin',
 	data() {
 		return {
 			fields: [
-				{ key: "name", label: "플러그인", class: "col" },
-				{ key: "versions", label: "버전/서버 수", class: "col-versions" },
+				{ key: 'name', label: '플러그인', class: 'col' },
+				{ key: 'versions', label: '버전/서버 수', class: 'col-versions' },
 				{
-					key: "servers",
-					label: "계",
-					class: "col-servers text-right font-weight-bold"
-				}
+					key: 'servers',
+					label: '계',
+					class: 'col-servers text-right font-weight-bold',
+				},
 			],
-			filterText: ""
+			filterText: '',
 		};
 	},
 	computed: {
-		...mapGetters(["pluginsVersionMapped"])
-	}
+		...mapGetters(['pluginsVersionMapped']),
+	},
 };
 </script>
 

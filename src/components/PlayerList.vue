@@ -9,30 +9,42 @@
 			</b-input-group>
 		</b-form-group>
 
-		<b-table small hover head-variant="dark" :fields="fields" :items="server.players" :filter="filterText" :filter-function="filter" :show-empty="true" empty-text="플레이어 목록이 비어있습니다">
+		<b-table
+			small
+			hover
+			head-variant="dark"
+			:fields="fields"
+			:items="server.players"
+			:filter="filterText"
+			:filter-function="filter"
+			:show-empty="true"
+			empty-text="플레이어 목록이 비어있습니다"
+		>
 			<template v-slot:cell(player)="data">
 				{{ data.item }}
 			</template>
 		</b-table>
 
-		<b-alert :show="server.numplayers > 0 && server.players.length == 0" variant="warning">이 서버에서는 플레이어 목록을 공개하지 않는 것 같습니다.</b-alert>
+		<b-alert :show="server.numplayers > 0 && server.players.length == 0" variant="warning"
+		>이 서버에서는 플레이어 목록을 공개하지 않는 것 같습니다.</b-alert
+		>
 	</div>
 </template>
 
 <script>
 export default {
-	name: "player-list",
-	props: ["server"],
+	name: 'player-list',
+	props: ['server'],
 	data() {
 		return {
-			fields: [{ key: "player", label: "플레이어" }],
-			filterText: ""
+			fields: [{ key: 'player', label: '플레이어' }],
+			filterText: '',
 		};
 	},
 	methods: {
-		filter: function(player, filterText) {
+		filter: function (player, filterText) {
 			return player.toLowerCase().indexOf(filterText.toLowerCase()) >= 0;
-		}
-	}
+		},
+	},
 };
 </script>

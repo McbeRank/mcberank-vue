@@ -1,17 +1,17 @@
-import { FETCH_PLUGINS } from "@/store/actions.type";
-import { SET_PLUGINS } from "@/store/mutations.type";
-import axios from "axios";
+import { FETCH_PLUGINS } from '@/store/actions.type';
+import { SET_PLUGINS } from '@/store/mutations.type';
+import axios from 'axios';
 
 const state = {
 	plugins: [],
-	pluginsVersionMapped: []
+	pluginsVersionMapped: [],
 };
 
 const actions = {
 	async [FETCH_PLUGINS](context) {
-		const { data } = await axios.get("/api/plugins");
+		const { data } = await axios.get('/api/plugins');
 		context.commit(SET_PLUGINS, data);
-	}
+	},
 };
 
 const mutations = {
@@ -22,12 +22,12 @@ const mutations = {
 		newPlugins.forEach(plugin => {
 			if (!mapped[plugin.name])
 				mapped[plugin.name] = {
-					versions: []
+					versions: [],
 				};
 
 			mapped[plugin.name].versions.push({
 				version: plugin.version,
-				servers: plugin.servers
+				servers: plugin.servers,
 			});
 		});
 
@@ -35,12 +35,12 @@ const mutations = {
 			.map(name => ({
 				name: name,
 				servers: mapped[name].versions.reduce((a, c) => a + c.servers, 0),
-				versions: mapped[name].versions
+				versions: mapped[name].versions,
 			}))
 			.sort((a, b) => b.servers - a.servers);
 
 		console.log(this.pluginsVersionMapped);
-	}
+	},
 };
 
 const getters = {
@@ -50,12 +50,12 @@ const getters = {
 
 	pluginsVersionMapped(state) {
 		return state.pluginsVersionMapped;
-	}
+	},
 };
 
 export default {
 	state,
 	actions,
 	mutations,
-	getters
+	getters,
 };
